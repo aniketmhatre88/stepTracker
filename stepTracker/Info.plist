@@ -41,5 +41,7 @@
 		<string>UIInterfaceOrientationLandscapeLeft</string>
 		<string>UIInterfaceOrientationLandscapeRight</string>
 	</array>
+    <key>NSMotionUsageDescription</key>
+    <string>$(PRODUCT_NAME) motion use.</string>
 </dict>
 </plist>

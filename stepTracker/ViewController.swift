@@ -7,8 +7,13 @@
 //
 
 import UIKit
+import CoreMotion
 
 class ViewController: UIViewController {
+    
+    @IBOutlet weak var stepCountLabel: UILabel!
+    
+    private let pedometer = CMPedometer()
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -19,7 +24,27 @@ class ViewController: UIViewController {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
     }
-
-
+    
+    @IBAction func onStart(_ sender: UIButton) {
+        if(CMPedometer.isStepCountingAvailable()) {
+            pedometer.startUpdates(from: Date(), withHandler: { (data, error) in
+                
+                DispatchQueue.main.sync(execute: {
+                    if(error == nil){
+                        if let stepCount = data?.numberOfSteps {
+                            self.stepCountLabel.text = "\(stepCount)"
+                        }
+                    }
+                })
+            })
+        }
+    }
+    
+    @IBAction func onStop(_ sender: UIButton) {
+        if(CMPedometer.isStepCountingAvailable()) {
+            pedometer.stopUpdates() //hack: call pedometer.stopUpdates() for expected behavoiur
+            stepCountLabel.text = "0"
+        }
+    }
 }
 
